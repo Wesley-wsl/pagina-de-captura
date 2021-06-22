@@ -1,3 +1,3 @@
 ## Página de captura
 
-![imagem-projeto]('./assets/Página de Captura.png')
+![imagem-projeto](./assets/pagina-de-captura.png)
