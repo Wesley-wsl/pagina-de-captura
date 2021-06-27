@@ -21,7 +21,7 @@ function calculo() {
     else {
         $result.innerHTML = `
         <ul style="margin-top:30px;">
-            <li>${beef / 1000} kg de carne.</li>
+            <li>${(beef / 1000).toFixed(1)} kg de carne.</li>
             <li>${Math.ceil(beer / 355)} latas de cerveja.</li>
             <li>${Math.ceil(beef / 2000)} garrafas de bebidas.</li>
         </ul>
