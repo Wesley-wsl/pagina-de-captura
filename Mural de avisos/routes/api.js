@@ -1,6 +1,12 @@
 const express = require('express')
 const router = express.Router()
 const posts = require("../model/posts")
+const cors = require('cors')
+const options = {
+    origin: "http://localhost:3000"
+}
+
+router.use(cors(options))
 
 router.use(express.json())
 
