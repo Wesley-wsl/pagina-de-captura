@@ -3,15 +3,18 @@ import './styles/App.scss';
 import List from './components/List'
 import TodoForm from './components/TodoForm'
 import Item from './components/item';
+import Modal from './components/Modal'
 
 const SAVE_ITEMS = 'savedItems'
 
 function App() {
     const [items, setItems] = useState([])
+    const [showModal, setShowModal] = useState(false)
+
 
     useEffect(() => {
         let savedItems = JSON.parse(localStorage.getItem(SAVE_ITEMS))
-        if(savedItems) {
+        if (savedItems) {
             setItems(savedItems)
         }
     }, [])
@@ -26,6 +29,7 @@ function App() {
         let item = new Item(text)
         item.id = items.length * Math.random()
         setItems([...items, item])
+        onHideModal()
     }
 
     function onItemDeleted(item) {
@@ -45,13 +49,21 @@ function App() {
         setItems(updatedItems)
     }
 
+    function onHideModal() {
+        setShowModal(false)
+    }
+
     return (
         <div className="container">
-            <h1>Todo</h1>
+            <header className='header'>
+                <h1>Todo</h1>
+                <button className='addButton' onClick={() => {setShowModal(true)}}>+</button>
+            </header>
 
-            <TodoForm onAddItem={onAddItem}></TodoForm>
             <List onDone={onDone} onItemDeleted={onItemDeleted} items={items}></List>
-
+            <Modal show={showModal} onHideModal={onHideModal}>
+                <TodoForm onAddItem={onAddItem}></TodoForm>
+            </Modal>
         </div>
     );
 }
