@@ -24,7 +24,7 @@ function App() {
 
     function onAddItem(text) {
         let item = new Item(text)
-        item.id = items.length
+        item.id = items.length * Math.random()
         setItems([...items, item])
     }
 
