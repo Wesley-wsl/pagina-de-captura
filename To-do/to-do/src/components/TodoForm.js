@@ -1,27 +1,30 @@
 import {useState} from 'react'
-
+import {addItem} from '../actions/listAction'
+import {useDispatch} from 'react-redux'
 
 function TodoForm(props) {
     const [text, setText] = useState('')
+    const dispatch = useDispatch()
 
     function handleChange(event) {
         let t = event.target
         setText(t.value)
     }
 
-    function addItem(event) {
+    function addItemEvent(event) {
         event.preventDefault()
 
         if (text.trim()) {
-            props.onAddItem(text)
+            dispatch(addItem(text))
             setText('')
+            props.onHideModal()
         }
     }
 
     return (
         <form action="">
             <input type="text" onChange={handleChange} value={text} />
-            <button onClick={addItem}>Add</button>
+            <button onClick={addItemEvent}>Add</button>
         </form>
     )
 }

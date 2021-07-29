@@ -4,50 +4,56 @@ import List from './components/List'
 import TodoForm from './components/TodoForm'
 import Item from './components/item';
 import Modal from './components/Modal'
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+import listReducer from './reducers/listReducer'
+
+
+const store = createStore(listReducer)
 
 const SAVE_ITEMS = 'savedItems'
 
 function App() {
-    const [items, setItems] = useState([])
+    // const [items, setItems] = useState([])
     const [showModal, setShowModal] = useState(false)
 
 
-    useEffect(() => {
-        let savedItems = JSON.parse(localStorage.getItem(SAVE_ITEMS))
-        if (savedItems) {
-            setItems(savedItems)
-        }
-    }, [])
+    // useEffect(() => {
+    //     let savedItems = JSON.parse(localStorage.getItem(SAVE_ITEMS))
+    //     if (savedItems) {
+    //         setItems(savedItems)
+    //     }
+    // }, [])
 
 
-    useEffect(() => {
-        localStorage.setItem(SAVE_ITEMS, JSON.stringify(items))
-    }, [items])
+    // useEffect(() => {
+    //     localStorage.setItem(SAVE_ITEMS, JSON.stringify(items))
+    // }, [items])
 
 
-    function onAddItem(text) {
-        let item = new Item(text)
-        item.id = items.length * Math.random()
-        setItems([...items, item])
-        onHideModal()
-    }
+    // function onAddItem(text) {
+    //     let item = new Item(text)
+    //     item.id = items.length * Math.random()
+    //     setItems([...items, item])
+    //     onHideModal()
+    // }
 
-    function onItemDeleted(item) {
-        let filteredItems = items.filter(it => it.id !== item.id)
+    // function onItemDeleted(item) {
+    //     let filteredItems = items.filter(it => it.id !== item.id)
 
-        setItems(filteredItems)
-    }
+    //     setItems(filteredItems)
+    // }
 
-    function onDone(item) {
-        let updatedItems = items.map(it => {
-            if (it.id === item.id) {
-                it.done = !it.done
-            }
+    // function onDone(item) {
+    //     let updatedItems = items.map(it => {
+    //         if (it.id === item.id) {
+    //             it.done = !it.done
+    //         }
 
-            return it
-        })
-        setItems(updatedItems)
-    }
+    //         return it
+    //     })
+    //     setItems(updatedItems)
+    // }
 
     function onHideModal() {
         setShowModal(false)
@@ -55,15 +61,18 @@ function App() {
 
     return (
         <div className="container">
-            <header className='header'>
-                <h1>Todo</h1>
-                <button className='addButton' onClick={() => {setShowModal(true)}}>+</button>
-            </header>
+            <Provider store={store}>
+                <header className='header'>
+                    <h1>Todo</h1>
+                    <button className='addButton' onClick={() => { setShowModal(true) }}>+</button>
+                </header>
 
-            <List onDone={onDone} onItemDeleted={onItemDeleted} items={items}></List>
-            <Modal show={showModal} onHideModal={onHideModal}>
-                <TodoForm onAddItem={onAddItem}></TodoForm>
-            </Modal>
+                <List></List>
+                <Modal show={showModal} onHideModal={onHideModal}>
+                    <TodoForm onHideModal={onHideModal}></TodoForm>
+                </Modal>
+
+            </Provider>
         </div>
     );
 }
